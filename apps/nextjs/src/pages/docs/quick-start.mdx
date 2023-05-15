@@ -1,0 +1,103 @@
+import { Callout, Tabs, Tab } from 'nextra-theme-docs'
+import Link from 'next/link'
+
+# Quick Start
+
+## Setup your Project [#setup-your-project]
+
+Loggl uses projects to give you a workspace for each of your applications. Within a project, you may create as many channels to organize your events in any way you choose.
+
+To get started, create your first project and channel. In this example, I have called my project `my-website` and my first channel `user-register`
+
+<Callout type="info" emoji="️">
+  The project and channel values should be lowercase! Alphabet characters, digits, and dashes "-" are accepted. Validation Regex: `^[a-z0-9]+(?:-[a-z0-9]+)*$`
+</Callout>
+
+## Copy your API token [#copy-your-api-token]
+
+Your API requests are authenticated using API keys. Any request that doesn't include an API key will return an error. Head to the API Keys page under Settings, then create and copy a new API Key.
+
+## Publish your first event [#publish-your-first-event]
+
+Now you can publish your first event to Loggl. To do so, make a POST request to the log endpoint. Once you have published your event, it will show up in the Loggl App in real-time, and you will receive a push notification if you have set the notify flag to true.
+
+<Tabs items={['cURL', 'Node', 'JavaScript', 'Python']}>
+  <Tab>
+    ```js copy
+    curl --location --request POST 'https://loggl.net/api/v1/log' \
+    --header 'Authorization: Bearer <TOKEN>' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "project": "my-website",
+        "channel": "user-register",
+        "event": "User Registered",
+        "description": "email: user@example.com",
+        "icon": "🔥",
+        "notify": true
+    }'
+    ```
+  </Tab>
+    <Tab>
+      ```js copy
+      var axios = require("axios").default;
+
+      var options = {
+        method: 'POST',
+        url: 'https://loggl.net/api/v1/log',
+        headers: {Authorization: 'Bearer <TOKEN>', 'Content-Type': 'application/json'},
+        data: {
+          project: 'my-website',
+          channel: 'user-register',
+          event: 'User Registered',
+          description: 'email: user@example.com',
+          icon: '🔥',
+          notify: true
+        }
+    };
+
+      axios.request(options).then(function (response) {
+        console.log(response.data);
+    }).catch(function (error) {
+        console.error(error);
+    });
+      ```
+  </Tab>
+    <Tab>
+      ```js copy
+      const options = {
+        method: 'POST',
+        headers: {Authorization: 'Bearer <TOKEN>', 'Content-Type': 'application/json'},
+        body: '{"project":"my-website","channel":"user-register","event":"User Registered","description":"email: user@example.com","icon":"🔥","notify":true}'
+      };
+
+      fetch('https://loggl.net/api/v1/log', options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
+      ```
+  </Tab>
+    <Tab>
+      ```python copy
+      import requests
+
+      url = "https://loggl.net/api/v1/log"
+
+      payload = {
+        "project": "my-website",
+        "channel": "user-register",
+        "event": "User Registered",
+        "description": "email: user@example.com",
+        "icon": "🔥",
+        "notify": True
+    }
+      headers = {
+        "Authorization": "Bearer <TOKEN>",
+        "Content-Type": "application/json"
+    }
+
+      response = requests.request("POST", url, json=payload, headers=headers)
+
+      print(response.text)
+      ```
+  </Tab>
+</Tabs>
